@@ -3,3 +3,7 @@ node_modules/
 *.tmp-*
 **/out/stills/
 **/out/frames/
+
+# Your own product projects stay on your machine
+/video-manual/*
+!/video-manual/.gitkeep
