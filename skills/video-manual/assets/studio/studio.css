@@ -126,3 +126,8 @@ input[type="color"] { width: 40px; height: 34px; padding: 2px; border: 1px solid
 .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 8px; }
 .bar i { display: block; height: 100%; background: var(--brand); }
 .toast { position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%); z-index: 40; padding: 10px 16px; border-radius: 10px; background: #2b1620; border: 1px solid #7a2a45; color: #ffb3c7; }
+
+/* In-page confirmation and naming (no native dialogs). */
+.btn.danger { background: #5a1f2e; border-color: #7a2a45; color: #ffb3c7; }
+.pop.left { right: auto; left: 150px; width: 360px; }
+.thumb .used { padding: 0 8px 7px; color: var(--warn); font-size: 12px; }

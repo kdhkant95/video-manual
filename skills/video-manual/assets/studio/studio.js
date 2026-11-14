@@ -21,7 +21,10 @@
     ? {
         steps: ['프로젝트', '씬', '스토리보드', '영상'],
         newManual: '+ 새 매뉴얼',
-        newManualPrompt: '새 매뉴얼의 이름을 입력하세요 (예: 새 작업 만들기)',
+        newManualPh: '매뉴얼 이름 (예: 새 작업 만들기)',
+        create: '만들기',
+        sure: '정말 삭제?',
+        usedIn: (n) => `스토리보드 ${n}개 단계에서 사용 중`,
         ai: 'AI',
         aiIdle: 'AI 요청 없음',
         aiOpen: (n) => `AI 요청 ${n}건 진행 중`,
@@ -85,7 +88,6 @@
         drop: '이미지를 여기에 끌어다 놓거나 눌러서 선택하세요 (PNG, JPEG)',
         uploading: '올리는 중…',
         del: '삭제',
-        delConfirm: (n) => `${n} 화면을 삭제할까요?`,
         figma: 'Figma에서 가져오기',
         figmaUrl: 'Figma 링크',
         figmaNote: '메모 (선택) — 어떤 프레임을 쓸지 등',
@@ -139,7 +141,10 @@
     : {
         steps: ['Project', 'Scenes', 'Storyboard', 'Video'],
         newManual: '+ New manual',
-        newManualPrompt: 'Name the new manual (e.g. Create a task)',
+        newManualPh: 'Manual name (e.g. Create a task)',
+        create: 'Create',
+        sure: 'Really delete?',
+        usedIn: (n) => `Used by ${n} storyboard step${n > 1 ? 's' : ''}`,
         ai: 'AI',
         aiIdle: 'No AI requests',
         aiOpen: (n) => `${n} AI request${n > 1 ? 's' : ''} in progress`,
@@ -201,7 +206,6 @@
         drop: 'Drop images here, or click to choose (PNG, JPEG)',
         uploading: 'Uploading…',
         del: 'Delete',
-        delConfirm: (n) => `Delete ${n}?`,
         figma: 'Import from Figma',
         figmaUrl: 'Figma link',
         figmaNote: 'Note (optional) — which frames to use',
@@ -314,6 +318,37 @@
     const p = (x) => [1, 3, 5].map((i) => parseInt(x.slice(i, i + 2), 16));
     const [ca, cb] = [p(a), p(b)];
     return '#' + ca.map((v, i) => Math.round(v + (cb[i] - v) * k).toString(16).padStart(2, '0')).join('');
+  }
+
+  // A button that asks for a second click before doing something destructive.
+  // Native confirm() and prompt() are not used anywhere: embedded browsers
+  // suppress them, which turns the button into one that silently does nothing.
+  function confirmButton(label, action, title) {
+    let armed = false;
+    let timer = 0;
+    const b = h('button', {
+      type: 'button',
+      class: 'btn sm ghost',
+      text: label,
+      title: title || '',
+      onclick: async () => {
+        if (!armed) {
+          armed = true;
+          b.textContent = STR.sure;
+          b.classList.add('danger');
+          timer = setTimeout(() => {
+            armed = false;
+            b.textContent = label;
+            b.classList.remove('danger');
+          }, 3500);
+          return;
+        }
+        clearTimeout(timer);
+        b.disabled = true;
+        await action();
+      },
+    });
+    return b;
   }
 
   function toast(msg) {
@@ -491,8 +526,12 @@
     );
     if (old) old.replaceWith(top);
     else app.prepend(top);
-    app.querySelector('.pop')?.remove();
+    app.querySelector('.pop:not(.left)')?.remove();
     if (popOpen) app.append(requestsPop());
+    // The name box is left alone while open, so typing survives a refresh.
+    const naming = app.querySelector('.pop.left');
+    if (newOpen && !naming) app.append(newManualPop());
+    if (!newOpen && naming) naming.remove();
   }
 
   function requestCard(r) {
@@ -514,13 +553,33 @@
     return h('div', { class: 'pop' }, h('h3', { text: STR.reqTitle }), h('div', { class: 'hint', text: STR.reqHint }), list.length ? list.map(requestCard) : h('p', { class: 'hint', text: STR.reqNone }));
   }
 
-  async function newManual() {
-    const name = prompt(STR.newManualPrompt);
-    if (!name || !name.trim()) return;
+  let newOpen = false;
+  function newManual() {
+    newOpen = !newOpen;
+    popOpen = false;
+    renderTop();
+  }
+  async function createManual(name) {
+    if (!name.trim()) return;
+    newOpen = false;
+    await flushSaves();
     const r = await api('POST', '/api/manuals', { name: name.trim() });
     manual = r.manual;
     step = Math.max(step, 2);
+    sessionStorage.vmStep = step;
     await load();
+  }
+  function newManualPop() {
+    const input = h('input', {
+      type: 'text',
+      placeholder: STR.newManualPh,
+      onkeydown: (e) => {
+        if (e.key === 'Enter' && !e.isComposing) createManual(input.value);
+        if (e.key === 'Escape') newManual();
+      },
+    });
+    setTimeout(() => input.focus());
+    return h('div', { class: 'pop left' }, h('div', { class: 'row' }, input, h('button', { type: 'button', class: 'btn primary', text: STR.create, onclick: () => createManual(input.value) })));
   }
 
   async function go(n) {
@@ -777,8 +836,9 @@
       h(
         'div',
         { class: 'thumbs' },
-        S.screens.map((s) =>
-          h(
+        S.screens.map((s) => {
+          const used = ((S.storyboard && S.storyboard.scenes) || []).filter((sc) => sc.image === 'screens/' + s.name).length;
+          return h(
             'div',
             { class: 'thumb' },
             h('img', { src: images()['screens/' + s.name].src, alt: s.name, loading: 'lazy' }),
@@ -787,10 +847,11 @@
               {},
               h('span', { text: s.name, title: s.name }),
               h('em', { text: `${s.width}×${s.height}` }),
-              h('button', { class: 'btn sm ghost', text: STR.del, onclick: async () => { if (confirm(STR.delConfirm(s.name))) { await api('DELETE', `/api/screens${q()}&name=${enc(s.name)}`); load(); } } }),
+              confirmButton(STR.del, async () => { await api('DELETE', `/api/screens${q()}&name=${enc(s.name)}`); load(); }),
             ),
-          ),
-        ),
+            used ? h('div', { class: 'used', text: STR.usedIn(used) }) : null,
+          );
+        }),
       ),
       h('h3', { text: STR.figma }),
       field(STR.figmaUrl, h('input', { type: 'url', placeholder: 'https://www.figma.com/design/…', oninput: (e) => (figma.figmaUrl = e.target.value.trim()) })),
