@@ -1,0 +1,12 @@
+{
+  "name": "video-manual-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Build and render scripts for the video-manual skill",
+  "dependencies": {
+    "playwright-core": "^1.65.0"
+  },
+  "optionalDependencies": {
+    "ffmpeg-static": "^5.3.0"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "새 작업 만들기 — 모아",
+    "lang": "ko",
+    "url": "moa.example.com/board/launch",
+    "goal": "보드에 새 작업을 만들고 담당자를 지정하는 방법"
+  },
+  "scenes": [
+    {
+      "type": "title",
+      "title": "새 작업 만들기",
+      "subtitle": "보드에 할 일을 추가하고 담당자를 지정해요"
+    },
+    {
+      "type": "screen",
+      "image": "screens/01-board.png",
+      "coordWidth": 1440,
+      "caption": "보드 오른쪽 위의 **'+ 새 작업'**을 누르세요.",
+      "note": "오른쪽 위 '+ 새 작업' 버튼을 강조한 뒤 클릭",
+      "actions": [
+        { "type": "highlight", "rect": [1323, 16, 85, 40] },
+        { "type": "click", "at": [1365, 36] }
+      ]
+    },
+    {
+      "type": "screen",
+      "image": "screens/02-new-task.png",
+      "coordWidth": 1440,
+      "caption": "작업 **제목**을 입력하세요.",
+      "note": "입력 창으로 확대, '제목' 칸을 누르고 '온보딩 이메일 초안 작성' 입력. 이어서 '담당자' 칸 클릭 — 그때 자막을 교체",
+      "actions": [
+        { "type": "zoom", "rect": [460, 196, 520, 408] },
+        { "type": "click", "at": [880, 321] },
+        { "type": "type", "rect": [494, 300, 452, 42], "text": "온보딩 이메일 초안 작성", "bg": "#ffffff", "fontSize": 16, "padding": 12, "color": "#1f2333" },
+        { "type": "caption", "text": "이어서 **'담당자'** 칸을 눌러 목록을 여세요." },
+        { "type": "click", "at": [720, 410] }
+      ]
+    },
+    {
+      "type": "screen",
+      "image": "screens/03-assignee-open.png",
+      "coordWidth": 1440,
+      "caption": "목록에서 **담당자**를 고르세요.",
+      "note": "목록의 '박서준'을 강조하고 클릭. 말풍선: 지정하면 알림이 가요",
+      "actions": [
+        { "type": "highlight", "rect": [499, 497, 442, 44] },
+        { "type": "text", "text": "지정하면 알림이 가요", "at": [860, 519], "place": "top" },
+        { "type": "click", "at": [640, 519] }
+      ]
+    },
+    {
+      "type": "screen",
+      "image": "screens/04-filled.png",
+      "coordWidth": 1440,
+      "caption": "**'만들기'**를 누르면 작업이 추가돼요.",
+      "note": "'만들기' 버튼을 강조한 뒤 클릭",
+      "actions": [
+        { "type": "highlight", "rect": [877, 540, 71, 40] },
+        { "type": "click", "at": [912, 560] }
+      ]
+    },
+    {
+      "type": "screen",
+      "image": "screens/05-added.png",
+      "coordWidth": 1440,
+      "caption": "새 작업이 **'할 일'** 열 맨 위에 나타나요.",
+      "note": "전체 화면으로 축소, 새로 생긴 카드를 강조. 말풍선: 방금 만든 작업",
+      "actions": [
+        { "type": "zoom-out" },
+        { "type": "highlight", "rect": [280, 135, 336, 87] },
+        { "type": "text", "text": "방금 만든 작업", "at": [616, 178], "place": "right", "animation": "pop" }
+      ]
+    },
+    {
+      "type": "outro",
+      "title": "작업이 추가됐어요",
+      "subtitle": "카드를 끌어서 진행 상태를 바꿔 보세요"
+    }
+  ]
+}

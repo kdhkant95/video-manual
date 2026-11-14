@@ -1,0 +1,7 @@
+{
+  "name": "video-manual",
+  "description": "Create animated video manuals for a software product from screenshots, Figma links or a live URL, with motion matched to the product's personality.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "keywords": ["video", "manual", "tutorial", "onboarding", "motion", "figma"]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "video-manual-skills",
+  "description": "Skills for making product video manuals with Claude.",
+  "owner": {
+    "name": "video-manual contributors"
+  },
+  "plugins": [
+    {
+      "name": "video-manual",
+      "source": "./",
+      "description": "Create animated video manuals for a software product from screenshots, Figma links or a live URL, with motion matched to the product's personality."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "friendly-playful",
+  "summary": "Warm and bouncy. Text pops in, the cursor overshoots a little, clicks make a big ripple. For consumer apps, education, community, lifestyle and kids' products.",
+  "canvas": { "background": "linear-gradient(135deg, #fff4e6 0%, #ffe3ec 100%)", "padding": 72 },
+  "colors": {
+    "accent": "#ff6b4a",
+    "text": "#2b2140",
+    "muted": "#7a6f8c",
+    "captionBg": "rgba(255, 255, 255, 0.96)",
+    "captionText": "#2b2140"
+  },
+  "font": {
+    "family": "\"Pretendard Variable\", Pretendard, \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Segoe UI\", system-ui, sans-serif",
+    "captionSize": 40,
+    "captionWeight": 700,
+    "titleSize": 92,
+    "titleWeight": 800,
+    "subtitleSize": 38
+  },
+  "frame": { "chrome": "auto", "chromeHeight": 44, "radius": 24, "shadow": "0 28px 70px rgba(120, 60, 90, 0.28)" },
+  "text": { "animation": "pop", "unit": "word", "stagger": 0.06, "duration": 0.55, "easing": "easeOutBack" },
+  "cursor": { "style": "arrow", "size": 44, "speed": 1300, "minDuration": 0.45, "maxDuration": 0.95, "easing": "easeOutBack", "arc": 0.14 },
+  "click": { "duration": 0.6, "press": 0.74, "rippleSize": 130, "rippleDuration": 0.6 },
+  "highlight": { "duration": 0.5, "easing": "spring", "width": 5, "radius": 14, "padding": 8, "dim": 0.25, "glow": 0.6, "pulse": true },
+  "zoom": { "maxScale": 2.0, "fill": 0.75, "duration": 0.7, "easing": "easeInOutCubic" },
+  "transition": { "type": "slide", "duration": 0.5, "easing": "easeOutCubic" },
+  "pacing": { "beat": 0.3, "hold": 0.8, "readingCps": 8.5, "minScene": 2.6, "typeCps": 12 },
+  "caption": { "style": "bar", "zone": 200, "maxWidth": 1320, "showStep": true },
+  "progress": true
+}

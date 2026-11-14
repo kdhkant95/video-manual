@@ -1,0 +1,95 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0b0d12; overflow: hidden; }
+
+#fit { position: absolute; inset: 0 0 52px 0; }
+#stage { position: absolute; left: 50%; top: 50%; overflow: hidden; font-family: var(--font); transform-origin: center center; }
+
+/* Capture mode: the stage fills the viewport 1:1 and the controls disappear. */
+body.capture #fit { inset: 0; }
+body.capture #stage { left: 0; top: 0; transform: none; }
+body.capture #controls { display: none; }
+
+#controls { position: absolute; left: 0; right: 0; bottom: 0; height: 52px; display: flex; align-items: center; gap: 14px; padding: 0 18px; background: #14171f; color: #cbd2de; font: 500 13px/1 system-ui, sans-serif; }
+#controls button { width: 36px; height: 32px; border: 0; border-radius: 8px; background: #262b38; color: #fff; font-size: 13px; cursor: pointer; }
+#controls input { flex: 1; accent-color: #8b9cff; }
+#clock { font-variant-numeric: tabular-nums; min-width: 86px; text-align: right; }
+
+.vm-shot { position: absolute; inset: 0; will-change: opacity, transform; }
+
+.vm-frame { position: absolute; overflow: hidden; background: #fff; border-radius: var(--frame-radius); box-shadow: var(--frame-shadow); }
+.vm-frame.is-phone { background: #0b0b0d; border-radius: 52px; }
+.vm-chrome { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 8px; padding: 0 18px; background: var(--chrome-bg); border-bottom: 1px solid color-mix(in srgb, var(--chrome-fg) 10%, transparent); }
+.vm-chrome i { width: 12px; height: 12px; border-radius: 50%; background: color-mix(in srgb, var(--chrome-fg) 18%, transparent); }
+.vm-chrome span { margin-left: 14px; flex: 0 1 520px; height: 26px; padding: 0 14px; border-radius: 13px; background: color-mix(in srgb, var(--chrome-fg) 8%, transparent); color: color-mix(in srgb, var(--chrome-fg) 55%, transparent); font: 500 14px/26px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vm-view { position: absolute; overflow: hidden; background: #fff; }
+.vm-frame.is-phone .vm-view { border-radius: 38px; }
+.vm-content { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.vm-content img { display: block; width: 100%; height: 100%; }
+
+.vm-hl { position: absolute; border-style: solid; border-color: var(--accent); pointer-events: none; }
+.vm-hl-label { position: absolute; left: 0; padding: 9px 14px; border-radius: 9px; background: var(--accent); color: var(--accent-text); font: 700 22px/1 var(--font); white-space: nowrap; }
+
+.vm-typed { position: absolute; display: flex; align-items: center; overflow: hidden; white-space: pre; font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", system-ui, sans-serif; }
+.vm-caret { flex: none; width: 0.08em; height: 1.15em; margin-left: 0.06em; background: currentColor; }
+
+.vm-cursor { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35)); }
+.vm-cursor.is-dot { border-radius: 50%; border: 3px solid #fff; background: color-mix(in srgb, var(--accent) 38%, transparent); }
+.vm-ripple { position: absolute; border-radius: 50%; border: 3px solid var(--accent); background: color-mix(in srgb, var(--accent) 24%, transparent); pointer-events: none; }
+
+.vm-capzone { position: absolute; left: 0; right: 0; bottom: 0; }
+.vm-caption { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; gap: 20px; width: max-content; max-width: var(--cap-max); color: var(--cap-text); font: var(--cap-weight) var(--cap-size) / 1.4 var(--font); word-break: keep-all; will-change: transform, opacity; }
+.vm-caption.is-bar { padding: 18px 36px 18px 20px; border-radius: 24px; background: var(--cap-bg); box-shadow: 0 14px 44px rgba(0, 0, 0, 0.22); }
+.vm-step { flex: none; min-width: 56px; height: 56px; padding: 0 14px; border-radius: 28px; background: var(--accent); color: var(--accent-text); font: 700 24px/56px var(--font); text-align: center; font-variant-numeric: tabular-nums; }
+
+.vm-w { display: inline-block; white-space: nowrap; }
+.vm-u { display: inline-block; will-change: transform, opacity; }
+
+.vm-card { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; padding: 0 180px; color: var(--text); text-align: center; word-break: keep-all; }
+.vm-card h1 { margin: 0; font: var(--title-weight) var(--title-size) / 1.22 var(--font); letter-spacing: -0.02em; }
+.vm-card p { margin: 0; color: var(--muted); font: 500 var(--sub-size) / 1.5 var(--font); }
+.vm-rule { width: 76px; height: 6px; border-radius: 3px; background: var(--accent); }
+
+.vm-progress { position: absolute; left: 0; bottom: 0; height: 6px; background: var(--accent); }
+
+/* Emphasis: **words** in captions, titles and callouts. */
+.vm-em { color: color-mix(in srgb, var(--accent) 55%, currentColor); font-weight: 800; }
+
+/* On-screen text: callout bubbles pinned to a point, and centred banners. */
+.vm-pop { position: absolute; left: 0; top: 0; word-break: keep-all; pointer-events: none; will-change: transform, opacity; }
+.vm-pop.is-bubble { max-width: 520px; padding: 13px 22px; border-radius: 16px; background: var(--accent); color: var(--accent-text); font: 700 28px/1.35 var(--font); box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28); }
+.vm-pop.is-bubble .vm-em { color: inherit; text-decoration: underline; text-underline-offset: 0.18em; }
+.vm-pop-tail { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 3px; background: var(--accent); transform: rotate(45deg); }
+.vm-pop.is-banner { max-width: 1100px; padding: 28px 56px; border-radius: 28px; background: rgba(8, 12, 24, 0.84); color: #fff; font: 800 68px/1.25 var(--font); letter-spacing: -0.02em; text-align: center; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4); }
+.vm-pop.is-banner .vm-em { color: color-mix(in srgb, var(--accent) 55%, #fff); }
+
+/* Review panel (preview only). */
+.vm-edit-toggle { width: auto !important; padding: 0 14px; white-space: nowrap; }
+#editor { position: absolute; top: 0; right: 0; bottom: 52px; width: 400px; display: none; flex-direction: column; background: #171a23; border-left: 1px solid #262b38; color: #dfe4ee; font: 400 13px/1.5 -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", system-ui, sans-serif; }
+body.editing #editor { display: flex; }
+body.editing #fit { right: 400px; }
+body.editing .vm-edit-toggle { background: #8b9cff; color: #0b0d12; }
+#editor header { padding: 18px 20px 14px; border-bottom: 1px solid #262b38; }
+#editor h2 { margin: 0 0 6px; font-size: 16px; }
+#editor header p { margin: 0; color: #98a1b3; }
+.vm-ed-list { flex: 1; overflow-y: auto; padding: 12px; }
+.vm-ed-card { margin-bottom: 10px; padding: 10px 12px 12px; border: 1px solid #2a3040; border-radius: 12px; background: #1d212c; }
+.vm-ed-card.on { border-color: #8b9cff; }
+.vm-ed-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; }
+.vm-ed-top b { padding: 2px 9px; border-radius: 10px; background: #2f3650; color: #c9d1ff; font-size: 12px; font-variant-numeric: tabular-nums; }
+.vm-ed-top span { flex: 1; overflow: hidden; color: #7f889b; font-size: 12px; white-space: nowrap; text-overflow: ellipsis; }
+.vm-ed-top button { width: 28px; height: 26px; border: 0; border-radius: 7px; background: #2a3040; color: #dfe4ee; cursor: pointer; }
+.vm-ed-top button:disabled { opacity: 0.3; cursor: default; }
+.vm-ed-field { display: block; margin-top: 8px; }
+.vm-ed-field > span { display: block; margin-bottom: 3px; color: #98a1b3; font-size: 12px; }
+.vm-ed-field em { color: #ffb86b; font-style: normal; }
+.vm-ed-field textarea { display: block; width: 100%; padding: 7px 9px; border: 1px solid #2f3648; border-radius: 8px; background: #12151c; color: #f1f4fa; font: inherit; font-size: 14px; resize: none; overflow: hidden; }
+.vm-ed-field textarea:focus { outline: 2px solid #8b9cff; outline-offset: -1px; }
+#editor footer { display: flex; align-items: center; gap: 8px; padding: 12px; border-top: 1px solid #262b38; }
+.vm-ed-status { flex: 1; color: #7f889b; }
+.vm-ed-status.dirty { color: #ffb86b; }
+#editor footer button { height: 32px; padding: 0 12px; border: 0; border-radius: 8px; background: #2a3040; color: #dfe4ee; font: inherit; cursor: pointer; }
+#editor footer button.primary { background: #8b9cff; color: #0b0d12; font-weight: 700; }
+
+/* Brand logo. */
+.vm-logo { max-width: 360px; max-height: 84px; margin-bottom: 8px; object-fit: contain; will-change: transform, opacity; }
+.vm-logo-corner { position: absolute; top: 50%; max-width: 190px; max-height: 44px; object-fit: contain; transform: translateY(-50%); }

@@ -1,0 +1,30 @@
+{
+  "name": "sharp-technical",
+  "summary": "Fast and exact. Monospace captions type on, screens cut instead of fading, no decoration. For developer tools, APIs, data and infrastructure products.",
+  "canvas": { "background": "#0b0e14", "padding": 64 },
+  "colors": {
+    "accent": "#22d3a6",
+    "text": "#e6edf3",
+    "muted": "#7d8590",
+    "captionBg": "rgba(22, 27, 34, 0.96)",
+    "captionText": "#e6edf3"
+  },
+  "font": {
+    "family": "\"JetBrains Mono\", \"SF Mono\", ui-monospace, Menlo, Consolas, \"Apple SD Gothic Neo\", \"Noto Sans KR\", monospace",
+    "captionSize": 34,
+    "captionWeight": 500,
+    "titleSize": 72,
+    "titleWeight": 700,
+    "subtitleSize": 32
+  },
+  "frame": { "chrome": "auto", "chromeHeight": 40, "radius": 8, "shadow": "0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 60px rgba(0, 0, 0, 0.6)", "chromeColor": "#161b22" },
+  "text": { "animation": "typewriter", "unit": "char", "stagger": 0.028, "duration": 0.05, "easing": "linear", "maxSpread": 1.0 },
+  "cursor": { "style": "arrow", "size": 36, "speed": 1800, "minDuration": 0.3, "maxDuration": 0.7, "easing": "easeOutQuint", "arc": 0 },
+  "click": { "duration": 0.4, "press": 0.9, "rippleSize": 60, "rippleDuration": 0.35 },
+  "highlight": { "duration": 0.25, "easing": "easeOutQuint", "width": 3, "radius": 4, "padding": 4, "dim": 0.5, "glow": 0, "pulse": false },
+  "zoom": { "maxScale": 2.2, "fill": 0.8, "duration": 0.5, "easing": "easeInOutQuint" },
+  "transition": { "type": "cut", "duration": 0, "easing": "linear" },
+  "pacing": { "beat": 0.25, "hold": 0.7, "readingCps": 9, "minScene": 2.2, "typeCps": 18 },
+  "caption": { "style": "bar", "zone": 170, "maxWidth": 1400, "showStep": true },
+  "progress": true
+}

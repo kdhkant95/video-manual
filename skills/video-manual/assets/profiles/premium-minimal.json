@@ -1,0 +1,30 @@
+{
+  "name": "premium-minimal",
+  "summary": "Slow, quiet and spacious. Text resolves out of a soft blur, the camera glides, nothing dims or glows. For design tools, brand-led and premium products.",
+  "canvas": { "background": "#f5f3ef", "padding": 104 },
+  "colors": {
+    "accent": "#1a1a1a",
+    "text": "#1a1a1a",
+    "muted": "#77736b",
+    "captionBg": "transparent",
+    "captionText": "#1a1a1a"
+  },
+  "font": {
+    "family": "\"Pretendard Variable\", Pretendard, \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Helvetica Neue\", system-ui, sans-serif",
+    "captionSize": 36,
+    "captionWeight": 500,
+    "titleSize": 80,
+    "titleWeight": 600,
+    "subtitleSize": 32
+  },
+  "frame": { "chrome": "none", "chromeHeight": 0, "radius": 18, "shadow": "0 40px 100px rgba(40, 30, 20, 0.16)" },
+  "text": { "animation": "blur-in", "unit": "word", "stagger": 0.07, "duration": 0.9, "easing": "easeOutQuint", "maxSpread": 1.4 },
+  "cursor": { "style": "dot", "size": 30, "speed": 800, "minDuration": 0.7, "maxDuration": 1.4, "easing": "easeInOutQuint", "arc": 0.05 },
+  "click": { "duration": 0.8, "press": 0.8, "rippleSize": 70, "rippleDuration": 0.8 },
+  "highlight": { "duration": 0.7, "easing": "easeOutQuint", "width": 2, "radius": 10, "padding": 8, "dim": 0, "glow": 0, "pulse": false },
+  "zoom": { "maxScale": 1.6, "fill": 0.66, "duration": 1.2, "easing": "easeInOutQuint" },
+  "transition": { "type": "crossfade", "duration": 0.9, "easing": "easeInOutCubic" },
+  "pacing": { "beat": 0.6, "hold": 1.2, "readingCps": 7, "minScene": 3.4, "typeCps": 9 },
+  "caption": { "style": "plain", "zone": 200, "maxWidth": 1240, "showStep": false },
+  "progress": false
+}

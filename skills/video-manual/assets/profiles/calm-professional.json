@@ -1,0 +1,30 @@
+{
+  "name": "calm-professional",
+  "summary": "Steady and precise. Nothing bounces; motion eases out and gets out of the way. For B2B SaaS, finance, healthcare, admin and enterprise tools.",
+  "canvas": { "background": "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)", "padding": 72 },
+  "colors": {
+    "accent": "#3b82f6",
+    "text": "#f8fafc",
+    "muted": "#94a3b8",
+    "captionBg": "rgba(15, 23, 42, 0.9)",
+    "captionText": "#f8fafc"
+  },
+  "font": {
+    "family": "\"Pretendard Variable\", Pretendard, \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Segoe UI\", system-ui, sans-serif",
+    "captionSize": 38,
+    "captionWeight": 600,
+    "titleSize": 84,
+    "titleWeight": 700,
+    "subtitleSize": 36
+  },
+  "frame": { "chrome": "auto", "chromeHeight": 44, "radius": 14, "shadow": "0 30px 80px rgba(0, 0, 0, 0.45)" },
+  "text": { "animation": "fade-up", "unit": "word", "stagger": 0.04, "duration": 0.5, "easing": "easeOutCubic" },
+  "cursor": { "style": "arrow", "size": 40, "speed": 1100, "minDuration": 0.5, "maxDuration": 1.1, "easing": "easeInOutCubic", "arc": 0.08 },
+  "click": { "duration": 0.6, "press": 0.86, "rippleSize": 84, "rippleDuration": 0.55 },
+  "highlight": { "duration": 0.45, "easing": "easeOutCubic", "width": 4, "radius": 8, "padding": 6, "dim": 0.35, "glow": 0.5, "pulse": false },
+  "zoom": { "maxScale": 1.8, "fill": 0.72, "duration": 0.8, "easing": "easeInOutCubic" },
+  "transition": { "type": "crossfade", "duration": 0.5, "easing": "easeInOutCubic" },
+  "pacing": { "beat": 0.4, "hold": 0.9, "readingCps": 8, "minScene": 2.8, "typeCps": 11 },
+  "caption": { "style": "bar", "zone": 190, "maxWidth": 1360, "showStep": true },
+  "progress": true
+}

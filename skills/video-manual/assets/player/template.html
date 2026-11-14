@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>{{CSS}}</style>
+</head>
+<body>
+<div id="fit"><div id="stage"></div></div>
+<div id="controls">
+  <button id="play" type="button" aria-label="Play or pause">▶</button>
+  <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek">
+  <span id="clock">0:00 / 0:00</span>
+</div>
+<script>
+window.__STORYBOARD__ = {{STORYBOARD}};
+window.__PROFILE__ = {{PROFILE}};
+window.__IMAGES__ = {{IMAGES}};
+</script>
+<script>{{TIMELINE_JS}}</script>
+<script>{{STAGE_JS}}</script>
+<script>{{PLAYER_JS}}</script>
+</body>
+</html>

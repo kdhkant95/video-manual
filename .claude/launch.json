@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "studio",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["skills/video-manual/scripts/studio.mjs", "video-manual", "--port", "4173"],
+      "port": 4173
+    },
+    {
+      "name": "example",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["skills/video-manual/scripts/studio.mjs", "examples/moa", "--port", "4174"],
+      "port": 4174
+    }
+  ]
+}
