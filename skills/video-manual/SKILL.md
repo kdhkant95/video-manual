@@ -58,7 +58,7 @@ Then start the Studio in the background and give the user its address:
 node <skill-dir>/scripts/studio.mjs video-manual --open
 ```
 
-Tell them in a sentence what happens next: they fill in step 1, and you will pick up whatever they send with a ✦ button. Then wait for requests as [references/studio.md](references/studio.md) describes.
+Tell them in a sentence what happens next: they fill in step 1, and you will pick up whatever they send with a ✦ button. Then wait for requests as [references/studio.md](references/studio.md) describes. The Studio shows "AI connected" only while you are waiting, so stay in that loop for as long as they are working there.
 
 ## Step 1 — Product project
 
@@ -77,13 +77,13 @@ These three facts — target age, domain, B2C or B2B — decide every caption. I
 
 One image per distinct screen state, in `screens/`, numbered in order of appearance. A state that changes visibly (a modal opens, a dropdown expands, a form is filled in) needs its own image: the video shows the result of a click by cutting to the next screenshot.
 
-The user usually uploads these in the Studio. On a `scenes` request with a Figma link, export each frame as a PNG and record its logical width for `coordWidth`; read the layer metadata too — exact element bounds are far more reliable than estimating from pixels.
+The user usually uploads these in the Studio, or lists Figma frame links there — one link per frame, in video order, each marked as a whole screen or as something that opens over the previous screen. When a request carries Figma links (`scenes`, or `draft` with `figmaFrames` or `figmaUrl`), handle them as [references/studio.md](references/studio.md) describes: export each frame as a PNG and record its logical width for `coordWidth`, place overlay frames on the screen they open over, and read the layer metadata too — exact element bounds are far more reliable than estimating from pixels. Frame links are worth asking for: a link to a whole page leaves you to find the screens yourself, which on a large design file costs more than everything else in the video. Figma access comes from the Figma connection of whichever AI client you are running in, under the user's own account; if there is none, say so and ask for exported PNGs.
 
 If a state the walkthrough needs is missing, say which one and ask for it rather than skipping the step. A jump the viewer cannot follow defeats the purpose of a manual.
 
 ## Step 3 — Storyboard draft
 
-On a `draft` request, read every screen and the profile, then write the draft into `storyboard.json`: the scenes in order, each with its `caption` and a `note` describing what happens on it. No actions yet. Read [references/manual-script.md](references/manual-script.md) for how to scope the video and write the text, and write every line in the profile's voice.
+On a `draft` request — sent from step 2 or step 3, and including the Figma import when it carries a link — read every screen and the profile, then write the draft into `storyboard.json`: the scenes in order, each with its `caption` and a `note` describing what happens on it. No actions yet. Read [references/manual-script.md](references/manual-script.md) for how to scope the video and write the text, and write every line in the profile's voice.
 
 The user edits the draft in the Studio and presses "Request the video" when the wording and order are right. That `produce` request is the approval. Do not add actions before it arrives.
 
@@ -143,7 +143,7 @@ Rendering takes roughly as long as the video itself, sometimes two or three time
 Do the same four steps in the conversation:
 
 1. **Project** — infer target age, domain and B2C/B2B from the screens and UI copy, state your reading and ask the user to confirm it in one question. Then write the whole profile yourself, including preset, accent and background.
-2. **Scenes** — copy the images the user gives you into `screens/`, or capture them yourself if you have a browser or Figma tool.
+2. **Scenes** — copy the images the user gives you into `screens/`, or capture them yourself if you have a browser or Figma tool. If they give one Figma link to a whole page, ask for the links of the frames to use, in order, before exploring it — unless the page is small enough to read at a glance.
 3. **Draft** — write the draft storyboard, show it as a table (step, screen, what happens, caption, on-screen text) with the estimated length, and wait for approval. If they said up front to go straight through, proceed and say where the draft is.
 4. **Video** — produce and check as above, then tell them where `out/manual.html` is. That standalone page plays the video and has its own panel for editing text and order; "Download edits" gives a `storyboard.edited.json` they can hand back. When they do, list what changed so they can confirm you read it as they meant it, save it as `storyboard.json`, rebuild and re-check the stills. Then render.
 

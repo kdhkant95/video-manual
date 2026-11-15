@@ -55,6 +55,7 @@ const profilePath = path.join(root, lib.PROFILE_FILE);
 const requestsPath = path.join(root, 'requests.json');
 const brandDir = path.join(root, 'brand');
 const guidePath = path.join(brandDir, 'guide.md');
+const agentPath = path.join(root, '.agent.json');
 
 function readJsonSafe(file, fallback) {
   try {
@@ -111,6 +112,8 @@ async function cmdWait() {
   const timeout = Number(flags.timeout == null ? 540 : flags.timeout) * 1000;
   const until = Date.now() + timeout;
   for (;;) {
+    // Heartbeat: lets the studio show the user that an agent is listening.
+    writeJson(agentPath, { at: Date.now(), pid: process.pid });
     const all = loadRequests();
     const pending = all.filter((r) => r.status === 'pending');
     if (pending.length) {
@@ -211,6 +214,12 @@ function listScreens(slug) {
     });
 }
 
+// An agent counts as connected while its `wait` heartbeat is fresh.
+function agentStatus() {
+  const beat = readJsonSafe(agentPath, null);
+  return { listening: !!beat && Date.now() - beat.at < 4000 };
+}
+
 const renders = new Map();
 const emptyStoryboard = (title) => ({ meta: { title: title || '', lang: 'ko' }, scenes: [] });
 
@@ -255,6 +264,7 @@ function getState(manual) {
     brandGuide: fs.existsSync(guidePath) ? fs.readFileSync(guidePath, 'utf8') : '',
     logo: logoFile(),
     requests: loadRequests(),
+    agent: agentStatus(),
     version: version(manual),
   };
 
@@ -476,7 +486,7 @@ async function route(req, res) {
     if (p === '/api/state') return send(res, 200, getState(manual));
     if (p === '/api/version') {
       const open = loadRequests().filter((r) => r.status !== 'done').length;
-      return send(res, 200, { version: version(manual && listManuals().includes(manual) ? manual : null), open });
+      return send(res, 200, { version: version(manual && listManuals().includes(manual) ? manual : null), open, agent: agentStatus() });
     }
     throw new HttpError(404, 'not found');
   }

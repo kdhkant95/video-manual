@@ -36,6 +36,8 @@ The full procedure is the skill at [skills/video-manual/SKILL.md](skills/video-m
    node skills/video-manual/scripts/studio.mjs wait video-manual --timeout 540
    ```
 
+The Studio shows "AI connected" only while that `wait` command is running. When the user says "스튜디오 요청 처리해 줘", "handle the studio requests" or similar, they have sent something and nobody picked it up: run `node skills/video-manual/scripts/studio.mjs pending <project>` to see it, handle it, then resume waiting.
+
 If the user would rather work in the conversation than in the Studio, the skill's "Without the Studio" section covers that.
 
 ## Working agreements
