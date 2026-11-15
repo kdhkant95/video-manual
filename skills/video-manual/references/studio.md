@@ -31,6 +31,8 @@ node <skill-dir>/scripts/studio.mjs wait video-manual --timeout 540
 
 This blocks until the user sends something, then prints the requests as JSON and marks them as being worked on (the Studio shows "AI working"). If nothing arrives before the timeout it prints `{"status":"idle"}`.
 
+While `wait` is running, the Studio shows "AI connected". When nobody is waiting, it shows "AI not connected", and a request the user sends sits in the queue under a banner telling them to say **"스튜디오 요청 처리해 줘"** ("Handle the studio requests") to their agent. When a user says that, or anything like it, run `pending` to see what is queued, handle it, then go back to `wait`. The user cannot tell a slow agent from an absent one, so return to `wait` promptly after each request rather than leaving the Studio showing "not connected".
+
 Work through what it returns, answer each request, and wait again:
 
 ```bash
@@ -64,10 +66,32 @@ Each request in the output carries the paths you need:
 | Type | The user pressed | What to do |
 | --- | --- | --- |
 | `profile` | "Ask AI for voice rules" (step 1) | Read the profile's `product` block and `brand/guide.md` if present. Write the `voice` block following [voice-guide.md](voice-guide.md); the brand guide overrides the general advice wherever they differ. Adjust motion tokens for the audience per [motion-profiles.md](motion-profiles.md). Add a `rationale`. Leave `product`, `colors`, `canvas` and `brand` as the user set them. |
-| `scenes` | "Ask AI to import" with a Figma link (step 2) | `payload.figmaUrl` and `payload.note`. Export each frame as a PNG into the manual's `screens/` folder, numbered in flow order (`01-board.png`). Note each frame's logical width — you will need it for `coordWidth`. If you have no Figma access, say so in the reply and ask for exported images. |
-| `draft` | "Ask AI for a draft" (step 3) | Read every screen and the profile. Write the draft storyboard — see [manual-script.md](manual-script.md). The draft has scenes with `caption` and `note` only; no actions yet. Use `payload.goal` (also in `meta.goal`) as the task the video teaches. |
+| `scenes` | "Import screens only" with Figma links (step 2) | See "Figma links in a request" below. Export the frames as PNGs into the manual's `screens/` folder, numbered in flow order (`01-board.png`). Note each frame's logical width — you will need it for `coordWidth`. If you have no Figma access, say so in the reply and ask for exported images. |
+| `draft` | "Ask AI for a storyboard draft" (step 2 or 3) | If `payload.figmaFrames` or `payload.figmaUrl` is present, first import the frames that are not already in `screens/`, exactly as for `scenes` — the user expects one request to take them from a Figma link to a draft. Then read every screen and the profile and write the draft storyboard — see [manual-script.md](manual-script.md). The draft has scenes with `caption` and `note` only; no actions yet. Use `payload.goal` (also in `meta.goal`) as the task the video teaches; if it is empty, infer the task from the screens and write it into `meta.goal`. Keep `meta.figmaFrames`, `meta.figmaUrl` and `meta.figmaNote` as they are. If the import fails, say so in the reply and do not write a draft from nothing. |
 | `produce` | "Request the video from this" (step 3) | The user has approved the wording and order. Turn the draft into the full storyboard — see [storyboard-schema.md](storyboard-schema.md): follow each scene's `note`, add the actions, set `coordWidth`. Keep every caption exactly as written. Then build, render stills and check them as SKILL.md describes before answering. |
 | `revise` | "Ask AI to revise" with frame comments (step 4) | See below. |
+
+### Figma links in a request
+
+A `scenes` or `draft` request can carry Figma links in two forms:
+
+```json
+{
+  "figmaFrames": [
+    { "url": "https://www.figma.com/design/…?node-id=12-34", "kind": "screen", "note": "근무계획 표" },
+    { "url": "https://www.figma.com/design/…?node-id=12-56", "kind": "overlay", "note": "빈 칸을 누르면 열리는 메뉴" }
+  ],
+  "figmaUrl": "https://www.figma.com/design/…?node-id=1-2",
+  "note": "…"
+}
+```
+
+- **`figmaFrames`** is what the user is asked for: one link per frame, in the order the screens appear in the video. Go straight to those nodes — do not explore the rest of the file. The order is the storyboard order and each `note` says what happens on that screen, so a draft starts from them rather than from your own reading of the file.
+  - `kind: "screen"` is a whole screen: export it as it is.
+  - `kind: "overlay"` is a popup, menu or toast drawn on its own. The viewer never sees it alone, so place it over the screen before it and save the result as one image. Put it where the design says it opens (its note, a guideline frame beside it, or the product's own convention: dialogs centred over a dimmed page, menus under the element that was clicked). An export keeps the canvas around a frame where its shadow was; clip to the frame's own bounds before placing it. Say in your reply which screens you assembled and where you placed each overlay, so the user can correct a wrong guess.
+- **`figmaUrl`** with `note` is the fallback: one link to a whole page or section, with the user's description of which frames to use. Finding the frames is then your job, and it is slow on a large file — read the structure first (layer names and sizes), pick the frames the note names, and only then export. If the note does not let you tell which frames are meant, ask in the reply instead of guessing a flow.
+
+When both are present, the frame links decide the screens; use the whole-page link only to look up what a frame link does not show, such as a guideline.
 
 A request you cannot fulfil still gets a `done` with a reply that says why and what you need — never leave one hanging in "AI working".
 
@@ -127,6 +151,7 @@ video-manual/
 │   ├── guide.md           # the user's pasted brand guide — read it, do not edit it
 │   └── logo.png           # uploaded logo
 ├── requests.json          # the queue. Change it only through `wait` and `done`
+├── .agent.json            # heartbeat written by `wait`; the Studio reads it to show "AI connected"
 └── <manual>/
     ├── screens/           # uploaded or imported images
     ├── storyboard.json    # shared: the user edits text and order, you edit everything

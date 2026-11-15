@@ -26,8 +26,26 @@
         sure: '정말 삭제?',
         usedIn: (n) => `스토리보드 ${n}개 단계에서 사용 중`,
         ai: 'AI',
-        aiIdle: 'AI 요청 없음',
-        aiOpen: (n) => `AI 요청 ${n}건 진행 중`,
+        agentOn: 'AI 연결됨',
+        agentOff: 'AI 연결 안 됨',
+        agentWork: (n) => `AI 작업 중 ${n}건`,
+        agentQueue: (n) => `AI 대기 ${n}건`,
+        bannerNoAgent: (n) => `요청 ${n}건이 내 AI 에이전트를 기다리고 있습니다. 에이전트 창에서 이렇게 말하세요:`,
+        agentPhrase: '스튜디오 요청 처리해 줘',
+        copyPhrase: '문장 복사',
+        copied: '복사됨',
+        draftCta: 'AI에게 스토리보드 초안 요청 →',
+        draftCtaHint: 'AI가 화면(Figma 링크가 있으면 프레임부터 가져와서)을 확인하고 키 화면과 설명글 초안을 씁니다. 받은 뒤 자유롭게 고칠 수 있습니다.',
+        writeMyself: '직접 쓰기 →',
+        figmaOnly: '화면만 가져오기',
+        needInput: '프레임 링크를 넣거나 이미지를 먼저 올리세요.',
+        badFigma: 'Figma 링크 형식이 아닙니다. https://www.figma.com/… 로 시작해야 합니다.',
+        s3EmptyTitle: '아직 스토리보드 초안이 없습니다',
+        s3EmptyLead: 'AI에게 초안을 요청하거나, 아래에서 화면을 놓고 직접 쓸 수 있습니다.',
+        waitTitle: 'AI에게 스토리보드 초안을 요청했습니다',
+        waitWorking: 'AI가 화면을 확인하고 초안을 쓰는 중입니다. 끝나면 이 화면에 바로 나타납니다.',
+        waitQueued: 'AI가 연결되어 있습니다. 곧 요청을 가져갑니다.',
+        waitNoAgent: '아직 요청을 가져간 AI가 없습니다. 이 작업은 내 AI 에이전트가 처리합니다. 에이전트 창에서 아래 문장을 말하세요.',
         reqTitle: 'AI 요청',
         reqHint: '요청은 프로젝트 폴더에 쌓이고 AI 에이전트가 가져가 처리합니다. 오래 "대기"에 머물면 에이전트에게 "스튜디오 요청 처리해 줘"라고 말하세요.',
         reqNone: '아직 요청이 없습니다.',
@@ -89,6 +107,17 @@
         uploading: '올리는 중…',
         del: '삭제',
         figma: 'Figma에서 가져오기',
+        framesTitle: '프레임 링크',
+        framesLead: '영상에 나오는 순서대로 프레임 링크를 한 줄에 하나씩 넣으세요. Figma에서 프레임을 고르고 "선택 항목 링크 복사"로 복사하면 됩니다. 여러 줄을 한 번에 붙여 넣어도 됩니다.',
+        frameUrlPh: 'https://www.figma.com/design/…?node-id=…',
+        frameNotePh: '이 화면에서 일어나는 일 (예: 빈 칸을 누르면 열리는 메뉴)',
+        frameKinds: { screen: '화면', overlay: '앞 화면 위에 뜸' },
+        frameKindHint: '팝업·메뉴·알림처럼 화면 일부만 그려진 프레임은 "앞 화면 위에 뜸"으로 두세요. AI가 바로 앞 화면 위에 올려 한 장으로 만듭니다.',
+        frameAdd: '+ 프레임 링크 추가',
+        frameNoNode: '프레임이 지정되지 않은 링크입니다 (node-id 없음)',
+        frameOverlayFirst: '첫 줄은 "화면"이어야 합니다. 올려놓을 앞 화면이 없습니다.',
+        wholeTitle: '프레임을 고르기 어렵다면: 페이지 전체 링크',
+        wholeHint: '페이지나 섹션 전체 링크를 주면 AI가 쓸 화면을 직접 찾습니다. 프레임 링크보다 오래 걸리고 엉뚱한 화면을 고를 수 있으니, 메모에 쓸 화면을 순서대로 적어 주세요.',
         figmaUrl: 'Figma 링크',
         figmaNote: '메모 (선택) — 어떤 프레임을 쓸지 등',
         figmaAsk: 'AI에게 가져오기 요청',
@@ -146,8 +175,26 @@
         sure: 'Really delete?',
         usedIn: (n) => `Used by ${n} storyboard step${n > 1 ? 's' : ''}`,
         ai: 'AI',
-        aiIdle: 'No AI requests',
-        aiOpen: (n) => `${n} AI request${n > 1 ? 's' : ''} in progress`,
+        agentOn: 'AI connected',
+        agentOff: 'AI not connected',
+        agentWork: (n) => `AI working on ${n}`,
+        agentQueue: (n) => `${n} waiting for AI`,
+        bannerNoAgent: (n) => `${n} request${n > 1 ? 's are' : ' is'} waiting for your AI agent. In the agent window, say:`,
+        agentPhrase: 'Handle the studio requests',
+        copyPhrase: 'Copy',
+        copied: 'Copied',
+        draftCta: 'Ask AI for a storyboard draft →',
+        draftCtaHint: 'The AI looks at the screens (importing the Figma frames first if there is a link) and drafts the key screens and their text. You can edit everything afterwards.',
+        writeMyself: 'Write it myself →',
+        figmaOnly: 'Import screens only',
+        needInput: 'Add a frame link or upload images first.',
+        badFigma: 'That is not a Figma link. It should start with https://www.figma.com/…',
+        s3EmptyTitle: 'No storyboard draft yet',
+        s3EmptyLead: 'Ask the AI for a draft, or lay out the screens below and write it yourself.',
+        waitTitle: 'Storyboard draft requested',
+        waitWorking: 'The AI is looking at the screens and writing the draft. It will appear here when it is done.',
+        waitQueued: 'An AI is connected and will pick the request up shortly.',
+        waitNoAgent: 'No AI has picked the request up yet. Your own AI agent does this work. In the agent window, say:',
         reqTitle: 'AI requests',
         reqHint: 'Requests are queued in the project folder and picked up by your AI agent. If one stays "waiting", tell the agent to "handle the studio requests".',
         reqNone: 'No requests yet.',
@@ -207,6 +254,17 @@
         uploading: 'Uploading…',
         del: 'Delete',
         figma: 'Import from Figma',
+        framesTitle: 'Frame links',
+        framesLead: 'Add one frame link per row, in the order the screens appear in the video. In Figma, select a frame and use "Copy link to selection". You can paste several lines at once.',
+        frameUrlPh: 'https://www.figma.com/design/…?node-id=…',
+        frameNotePh: 'What happens on this screen (e.g. the menu that opens when an empty cell is clicked)',
+        frameKinds: { screen: 'Screen', overlay: 'Opens over the previous screen' },
+        frameKindHint: 'Mark frames that show only part of a screen — popups, menus, toasts — as "Opens over the previous screen". The AI places them on the screen before and makes one image.',
+        frameAdd: '+ Add a frame link',
+        frameNoNode: 'This link does not point at a frame (no node-id)',
+        frameOverlayFirst: 'The first row must be a screen: there is nothing before it to open over.',
+        wholeTitle: 'Hard to pick frames? Link the whole page',
+        wholeHint: 'With a page or section link the AI has to find the screens itself. That takes longer than frame links and can pick the wrong ones, so list the screens you want, in order, in the note.',
         figmaUrl: 'Figma link',
         figmaNote: 'Note (optional) — which frames to use',
         figmaAsk: 'Ask AI to import',
@@ -270,6 +328,12 @@
     for (const kid of kids.flat(Infinity)) if (kid != null && kid !== false) el.append(kid);
     return el;
   }
+  // Append children the way h() does: arrays are flattened and empty values
+  // skipped. (Element.append() would print "null" or "[object …]" instead.)
+  const put = (el, ...kids) => {
+    for (const kid of kids.flat(Infinity)) if (kid != null && kid !== false) el.append(kid);
+    return el;
+  };
   const enc = encodeURIComponent;
   const clone = (v) => JSON.parse(JSON.stringify(v));
   const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
@@ -351,6 +415,51 @@
     return b;
   }
 
+  async function copyText(value, btn) {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const ta = h('textarea', { value });
+      document.body.append(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    const was = btn.textContent;
+    btn.textContent = STR.copied;
+    setTimeout(() => (btn.textContent = was), 1500);
+  }
+  // The sentence to say to the agent, with a copy button.
+  const agentPhrase = () => {
+    const btn = h('button', { type: 'button', class: 'btn sm', text: STR.copyPhrase, onclick: () => copyText(STR.agentPhrase, btn) });
+    return h('span', { class: 'phrase' }, h('code', { text: STR.agentPhrase }), btn);
+  };
+  const isFigma = (url) => /^https:\/\/([\w-]+\.)?figma\.com\//.test(url || '');
+  const hasNode = (url) => /[?&]node-id=[\w%:-]+/.test(url || '');
+  // The frame links the user listed in step 2, in video order. Rows left empty are dropped.
+  const figmaFrames = (meta) =>
+    (Array.isArray(meta.figmaFrames) ? meta.figmaFrames : [])
+      .map((f) => ({ url: (f.url || '').trim(), note: (f.note || '').trim(), kind: f.kind === 'overlay' ? 'overlay' : 'screen' }))
+      .filter((f) => f.url);
+  const hasFigma = (meta) => figmaFrames(meta).length > 0 || !!meta.figmaUrl;
+  // What a `scenes` or `draft` request carries: the ordered frame links, and the
+  // whole-page link with its note when the user gave one.
+  const figmaPayload = (meta) => {
+    const frames = figmaFrames(meta);
+    return {
+      ...(frames.length ? { figmaFrames: frames } : {}),
+      ...(meta.figmaUrl ? { figmaUrl: meta.figmaUrl, note: meta.figmaNote || '' } : {}),
+    };
+  };
+  // Returns the first problem with the typed links, or '' when they can be sent.
+  const figmaProblem = (meta) => {
+    if (meta.figmaUrl && !isFigma(meta.figmaUrl)) return STR.badFigma;
+    const frames = figmaFrames(meta);
+    if (frames.some((f) => !isFigma(f.url))) return STR.badFigma;
+    if (frames.length && frames[0].kind === 'overlay') return STR.frameOverlayFirst;
+    return '';
+  };
+
   function toast(msg) {
     const el = h('div', { class: 'toast', text: msg });
     document.getElementById('app').append(el);
@@ -380,6 +489,7 @@
   let manual = sessionStorage.vmManual || '';
   let player = null; // the live stage of the current step, if any
   let softRefresh = null; // a step may handle a background refresh itself
+  let onAgentChange = null; // a step may show whether an agent is listening
   let popOpen = false;
 
   const q = () => (manual ? '?manual=' + enc(manual) : '');
@@ -418,6 +528,11 @@
   setInterval(async () => {
     try {
       const v = await (await fetch('/api/version' + q())).json();
+      if (S && v.agent && (!S.agent || S.agent.listening !== v.agent.listening)) {
+        S.agent = v.agent;
+        renderTop();
+        if (onAgentChange) onAgentChange();
+      }
       if (v.version === known) return;
       // Do not pull the form out from under someone who is typing.
       const a = document.activeElement;
@@ -492,6 +607,9 @@
   function renderTop() {
     const old = app.querySelector('.top');
     const open = openRequests();
+    const working = open.filter((r) => r.status === 'working').length;
+    const queued = open.length - working;
+    const listening = !!(S.agent && S.agent.listening);
     const top = h(
       'div',
       { class: 'top' },
@@ -516,8 +634,8 @@
         ),
       ),
       h('button', {
-        class: 'pill' + (open.length ? ' busy' : ''),
-        text: open.length ? STR.aiOpen(open.length) : STR.aiIdle,
+        class: 'pill' + (working || (queued && !listening) ? ' busy' : listening ? ' ok' : ''),
+        text: (listening || working ? '● ' : '○ ') + (working ? STR.agentWork(working) : queued ? STR.agentQueue(queued) : listening ? STR.agentOn : STR.agentOff),
         onclick: () => {
           popOpen = !popOpen;
           renderTop();
@@ -526,6 +644,9 @@
     );
     if (old) old.replaceWith(top);
     else app.prepend(top);
+    // Requests nobody is going to pick up: say so, and say what to do.
+    app.querySelector('.banner')?.remove();
+    if (queued && !working && !listening) top.after(h('div', { class: 'banner' }, STR.bannerNoAgent(queued), agentPhrase()));
     app.querySelector('.pop:not(.left)')?.remove();
     if (popOpen) app.append(requestsPop());
     // The name box is left alone while open, so typing survives a refresh.
@@ -593,6 +714,7 @@
     if (player) player.destroy();
     player = null;
     softRefresh = null;
+    onAgentChange = null;
     app.querySelector('.panel')?.remove();
     renderTop();
     const panel = h('div', { class: 'panel' });
@@ -830,8 +952,91 @@
       ondrop: (e) => { e.preventDefault(); drop.classList.remove('over'); upload(Array.from(e.dataTransfer.files)); },
     });
 
-    const figma = { figmaUrl: '', note: '' };
-    wrap.append(
+    const sb = S.storyboard;
+    sb.meta = sb.meta || {};
+    const saveMeta = saver(() => save('PUT', '/api/storyboard' + q(), sb), 500);
+    const hasScenes = sb.scenes.length > 0;
+    // Returns false (and says why) when a typed link cannot be sent.
+    const figmaOk = () => {
+      const problem = figmaProblem(sb.meta);
+      if (problem) toast(problem);
+      return !problem;
+    };
+    const askDraft = async () => {
+      if (!figmaOk()) return;
+      if (!S.screens.length && !hasFigma(sb.meta)) return toast(STR.needInput);
+      await request('draft', { goal: sb.meta.goal || '', ...figmaPayload(sb.meta) });
+      go(3);
+    };
+
+    // Frame links: one row per frame, in video order. The rows are edited here and
+    // only the ones with something typed in are kept in the storyboard's meta.
+    const frames = clone(Array.isArray(sb.meta.figmaFrames) ? sb.meta.figmaFrames : []);
+    const frameList = h('div', { class: 'frames' });
+    const saveFrames = () => {
+      const kept = frames.filter((f) => (f.url || '').trim() || (f.note || '').trim());
+      if (kept.length) sb.meta.figmaFrames = clone(kept);
+      else delete sb.meta.figmaFrames;
+      saveMeta();
+    };
+    const framesChanged = () => { saveFrames(); drawFrames(); };
+    function frameRow(f, i) {
+      const warn = h('div', { class: 'hint warn' });
+      const check = () => {
+        const url = (f.url || '').trim();
+        warn.textContent = !url ? '' : !isFigma(url) ? STR.badFigma : !hasNode(url) ? STR.frameNoNode : i === 0 && f.kind === 'overlay' ? STR.frameOverlayFirst : '';
+      };
+      check();
+      const url = h('input', {
+        type: 'url',
+        value: f.url || '',
+        placeholder: STR.frameUrlPh,
+        oninput: (e) => { f.url = e.target.value.trim(); check(); saveFrames(); },
+        // Several links pasted at once become one row each.
+        onpaste: (e) => {
+          const lines = (e.clipboardData.getData('text') || '').split(/\s+/).filter((x) => /^https?:\/\//.test(x));
+          if (lines.length < 2) return;
+          e.preventDefault();
+          frames.splice(f.url ? i + 1 : i, f.url ? 0 : 1, ...lines.map((x) => ({ url: x, note: '', kind: 'screen' })));
+          framesChanged();
+        },
+      });
+      return h(
+        'div',
+        { class: 'frame' },
+        h('span', { class: 'badge', text: String(i + 1) }),
+        h(
+          'div',
+          { class: 'grow' },
+          h(
+            'div',
+            { class: 'row' },
+            h('div', { class: 'grow' }, url),
+            h(
+              'select',
+              { class: 'in kind', title: STR.frameKindHint, onchange: (e) => { f.kind = e.target.value; check(); saveFrames(); } },
+              Object.entries(STR.frameKinds).map(([k, label]) => h('option', { value: k, text: label, selected: (f.kind || 'screen') === k })),
+            ),
+          ),
+          text(f.note, (v) => { f.note = v; saveFrames(); }, STR.frameNotePh),
+          warn,
+        ),
+        h(
+          'div',
+          { class: 'tools' },
+          h('button', { type: 'button', class: 'btn sm', text: '↑', disabled: i === 0, onclick: () => { [frames[i - 1], frames[i]] = [frames[i], frames[i - 1]]; framesChanged(); } }),
+          h('button', { type: 'button', class: 'btn sm', text: '↓', disabled: i === frames.length - 1, onclick: () => { [frames[i + 1], frames[i]] = [frames[i], frames[i + 1]]; framesChanged(); } }),
+          h('button', { type: 'button', class: 'btn sm ghost', text: '✕', title: STR.del, onclick: () => { frames.splice(i, 1); framesChanged(); } }),
+        ),
+      );
+    }
+    function drawFrames() {
+      if (!frames.length) frames.push({ url: '', note: '', kind: 'screen' });
+      frameList.replaceChildren(...frames.map(frameRow));
+    }
+    drawFrames();
+    put(
+      wrap,
       drop,
       h(
         'div',
@@ -854,16 +1059,36 @@
         }),
       ),
       h('h3', { text: STR.figma }),
-      field(STR.figmaUrl, h('input', { type: 'url', placeholder: 'https://www.figma.com/design/…', oninput: (e) => (figma.figmaUrl = e.target.value.trim()) })),
-      field(STR.figmaNote, area('', (x) => (figma.note = x))),
+      h('div', { class: 'ftitle', text: STR.framesTitle }),
+      h('div', { class: 'hint', style: 'margin-bottom:8px', text: STR.framesLead }),
+      frameList,
+      h(
+        'div',
+        { class: 'row', style: 'margin-bottom:6px' },
+        h('button', { type: 'button', class: 'btn sm', text: STR.frameAdd, onclick: () => { frames.push({ url: '', note: '', kind: 'screen' }); framesChanged(); frameList.lastChild.querySelector('input').focus(); } }),
+        h('span', { class: 'hint grow', text: STR.frameKindHint }),
+      ),
+      h(
+        'details',
+        { class: 'whole', open: !!sb.meta.figmaUrl },
+        h('summary', { text: STR.wholeTitle }),
+        h('div', { class: 'hint', style: 'margin:8px 0 10px', text: STR.wholeHint }),
+        field(STR.figmaUrl, h('input', { type: 'url', value: sb.meta.figmaUrl || '', placeholder: 'https://www.figma.com/design/…', oninput: (e) => { sb.meta.figmaUrl = e.target.value.trim(); saveMeta(); } })),
+        field(STR.figmaNote, area(sb.meta.figmaNote, (x) => { sb.meta.figmaNote = x; saveMeta(); })),
+      ),
       h(
         'div',
         { class: 'row' },
-        h('button', { class: 'btn ai', text: '✦ ' + STR.figmaAsk, onclick: () => (/^https:\/\/([\w-]+\.)?figma\.com\//.test(figma.figmaUrl) ? request('scenes', figma) : toast(STR.figmaUrl + ' ?')) }),
+        h('button', { class: 'btn sm ai', text: '✦ ' + STR.figmaOnly, onclick: () => { if (!hasFigma(sb.meta)) return toast(STR.needInput); if (figmaOk()) request('scenes', figmaPayload(sb.meta)); } }),
         h('span', { class: 'hint grow', text: STR.figmaHint }),
-        h('button', { class: 'btn primary', text: STR.next, onclick: () => go(3) }),
       ),
-      requestsOf('scenes'),
+      requestsOf('scenes', 'draft'),
+      h('div', { class: 'cta' },
+        h('div', { class: 'hint grow', text: hasScenes ? '' : STR.draftCtaHint }),
+        hasScenes
+          ? h('button', { class: 'btn primary', text: STR.next, onclick: () => go(3) })
+          : [h('button', { class: 'btn ghost', text: STR.writeMyself, onclick: () => go(3) }), h('button', { class: 'btn ai big', text: '✦ ' + STR.draftCta, onclick: askDraft })],
+      ),
     );
   }
 
@@ -928,11 +1153,50 @@
         ),
       );
     }
+    // With no scenes yet, the top of the page says where the draft stands:
+    // not requested, waiting for an agent, or being written.
+    const canDraft = names.length > 0 || (hasFigma(sb.meta) && !figmaProblem(sb.meta));
+    const askDraft = () => request('draft', { goal: sb.meta.goal || '', ...figmaPayload(sb.meta) });
+    const emptyBox = h('div');
+    function drawEmpty() {
+      if (sb.scenes.length) return emptyBox.replaceChildren();
+      const req = S.requests.find((r) => r.manual === manual && ['draft', 'scenes'].includes(r.type) && r.status !== 'done');
+      const last = S.requests.filter((r) => r.manual === manual && r.type === 'draft' && r.status === 'done').pop();
+      if (req) {
+        const working = req.status === 'working';
+        const listening = !!(S.agent && S.agent.listening);
+        emptyBox.replaceChildren(
+          h(
+            'div',
+            { class: 'waitbox' },
+            working || listening ? h('i', { class: 'spinner' }) : null,
+            h('b', { text: STR.waitTitle }),
+            h('p', { text: working ? STR.waitWorking : listening ? STR.waitQueued : STR.waitNoAgent }),
+            working || listening ? null : agentPhrase(),
+          ),
+        );
+        return;
+      }
+      emptyBox.replaceChildren(
+        h(
+          'div',
+          { class: 'waitbox' },
+          h('b', { text: STR.s3EmptyTitle }),
+          h('p', { text: STR.s3EmptyLead }),
+          last && last.reply ? h('p', { class: 'reply', text: `${STR.aiReply}: ${last.reply}` }) : null,
+          h('button', { class: 'btn ai big', text: '✦ ' + STR.draftCta.replace(' →', ''), disabled: !canDraft, onclick: askDraft }),
+          canDraft ? null : h('p', { class: 'hint', text: STR.needInput }),
+        ),
+      );
+    }
+    onAgentChange = drawEmpty;
+
     const produceBtn = h('button', { class: 'btn ai', text: '✦ ' + STR.produce, onclick: async () => { await request('produce'); go(4); } });
     function drawList() {
       let n = 0;
       list.replaceChildren(...sb.scenes.map((sc, i) => row(sc, i, sc.type === 'screen' ? ++n : 0)));
       produceBtn.disabled = !n;
+      drawEmpty();
     }
     const nextScreen = () => names.find((n) => !sb.scenes.some((s) => s.image === n)) || names[names.length - 1];
     const insertBeforeOutro = (sc) => {
@@ -940,7 +1204,8 @@
       sb.scenes.splice(i < 0 ? sb.scenes.length : i, 0, sc);
     };
 
-    wrap.append(
+    put(
+      wrap,
       busyNote(),
       h(
         'div',
@@ -948,14 +1213,14 @@
         h('div', { class: 'grow' }, field(STR.videoTitle, text(sb.meta.title, (v) => { sb.meta.title = v; persist(); }))),
         h('div', { class: 'grow', style: 'flex:2' }, field(STR.goal, text(sb.meta.goal, (v) => { sb.meta.goal = v; persist(); }, STR.goalPh))),
       ),
+      emptyBox,
       h(
         'div',
         { class: 'row wrapline', style: 'margin-bottom:14px' },
-        h('button', { class: 'btn ai', text: '✦ ' + STR.draftAsk, disabled: !names.length, onclick: () => request('draft', { goal: sb.meta.goal || '' }) }),
+        h('button', { class: 'btn ai', text: '✦ ' + STR.draftAsk, disabled: !canDraft, onclick: askDraft }),
         h('button', { class: 'btn ghost', text: STR.fromScreens, disabled: !names.length, onclick: () => { names.filter((n) => !sb.scenes.some((s) => s.image === n)).forEach((n) => insertBeforeOutro({ type: 'screen', image: n, caption: '', note: '', actions: [] })); structural(); } }),
-        names.length ? null : h('span', { class: 'hint', text: STR.noScreens }),
+        canDraft ? null : h('span', { class: 'hint', text: STR.noScreens }),
       ),
-      requestsOf('draft'),
       list,
       h(
         'div',
